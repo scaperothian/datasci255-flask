@@ -1,29 +1,42 @@
 name: Continuous Integration
-# inspired by bcourses
+# inspired by bcourses and https://github.com/actions/setup-python/blob/main/.github/workflows/test-python.yml
 
 on: 
   push: 
-    branches: [ main ]
+    branches: 
+      - main
 
 jobs:
   run_tests:
-    runs-on: ${{matrix.os}}
+    name: Setup ${{ matrix.python }} ${{ matrix.os }}
+    runs-on: $${{matrix.os}}
     strategy: 
       fail-fast: false
       matrix:
         os: [macos-latest]
-        python-version: [3.8]
+        python: [3.8.18]
     
     steps:
     # checkout codebase
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     
     # install python
-    - name: Setup Python ${{matrix.python-version}}
-      uses: action/setup-python@v2
+    - name: setup-python ${{matrix.python}}
+      id: setup-python
+      uses: ./
       with: 
-        python-version: ${{matrix.python-version}}
+        python-version: ${{matrix.python}}
+
+    - name: Validate version
+      run: |
+          $pythonVersion = (python --version)
+          if ("Python ${{ matrix.python }}" -ne "$pythonVersion"){
+            Write-Host "The current version is $pythonVersion; expected version is ${{ matrix.python }}"
+            exit 1
+          }
+          $pythonVersion
+      shell: pwsh
 
     # install python dependencies
     - name: Install Dependencies
