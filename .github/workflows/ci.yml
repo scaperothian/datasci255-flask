@@ -15,11 +15,11 @@ jobs:
     steps:
     # checkout codebase
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     
     # install python
     - name: Setup Python ${{matrix.python-version}}
-      uses: action/setup-python@v2
+      uses: action/setup-python@v4
       with: 
         python-version: ${{matrix.python-version}}
     # install python dependencies
