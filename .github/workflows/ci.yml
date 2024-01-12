@@ -10,7 +10,7 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        python-version: ["pypy3.8"]
+        python: [3.8.18]
     
     steps:
     # checkout codebase
