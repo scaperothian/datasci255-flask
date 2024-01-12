@@ -14,7 +14,8 @@ jobs:
     
     steps:
     # checkout codebase
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
     
     # install python
     - name: Setup Python ${{matrix.python-version}}
