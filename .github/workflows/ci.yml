@@ -1,5 +1,5 @@
 name: Continuous Integration
-# inspired by bcourses and https://github.com/actions/setup-python/blob/main/.github/workflows/test-python.yml
+# inspired by bcourses
 
 on: 
   push: 
@@ -7,23 +7,23 @@ on:
 
 jobs:
   run_tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     strategy: 
       fail-fast: false
       matrix:
-        python: [3.8.18]
+        os: [macos-latest]
+        python-version: [3.8]
     
     steps:
     # checkout codebase
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
     
     # install python
-    - name: Setup Python ${{matrix.python}}
-      id: setup-python
-      uses: ./
+    - name: Setup Python ${{matrix.python-version}}
+      uses: action/setup-python@v2
       with: 
-        python-version: ${{matrix.python}}
+        python-version: ${{matrix.python-version}}
 
     # install python dependencies
     - name: Install Dependencies
